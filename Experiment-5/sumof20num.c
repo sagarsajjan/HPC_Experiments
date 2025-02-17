@@ -2,20 +2,21 @@
 #include <omp.h>
 
 int main() {
-    int sum = 0; 
-    
+    int total_sum = 0;
+
     #pragma omp parallel
     {
-        int partial_sum = 0;
-        #pragma omp for lastprivate(sum) 
+        int partial_sum = 0;  
+
+        #pragma omp for
         for (int i = 1; i <= 20; i++) {
             partial_sum += i;  
+        }
 
-        } 
-        sum += partial_sum;
+        #pragma omp atomic
+        total_sum += partial_sum;  
     }
-    
-    printf("Total Sum of first %d natural numbers: %d\n", 20, sum);
+
+    printf("Total Sum: %d\n", total_sum);  
     return 0;
 }
-
